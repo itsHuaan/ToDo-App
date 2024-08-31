@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/add_new_task.dart';
+import 'package:todo_list/database.dart';
 import 'package:todo_list/todo_tasks.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,43 +13,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Reference to the hive box
+  final _myBox = Hive.box("myBox");
+
   // Text controller
   final _controller = TextEditingController();
-
-  // ToDo list
-  List toDoList = [
-    [
-      "Do laundry",
-      false,
-      DateFormat('dd/MM/yyyy').format(DateTime.now())
-    ],
-    [
-      "Make sandwich",
-      false,
-      DateFormat('dd/MM/yyyy').format(DateTime.now())
-    ],
-    [
-      "Defeat the Ender Dragon",
-      false,
-      DateFormat('dd/MM/yyyy').format(DateTime.now())
-    ]
-  ];
+  TaskDabase db = TaskDabase();
+  @override
+  void initState() {
+    if (_myBox.get("TODOLIST") == null) {
+      db.initialData();
+    } else {
+      db.loadData();
+    }
+    super.initState();
+  }
 
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = !toDoList[index][1];
+      db.toDoList[index][1] = !db.toDoList[index][1];
     });
+    db.updateData();
   }
 
   void saveNewTask() {
     setState(() {
       if (_controller.text.isNotEmpty) {
-        toDoList.add([
+        db.toDoList.add([
           _controller.text,
           false,
           DateFormat('dd/MM/yyyy').format(DateTime.now())
         ]);
         _controller.text = '';
+        db.updateData();
         Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -84,8 +82,9 @@ class _HomePageState extends State<HomePage> {
               TextButton(
                 onPressed: () {
                   setState(() {
-                    toDoList.removeAt(index);
+                    db.toDoList.removeAt(index);
                   });
+                  db.updateData();
                   Navigator.of(context).pop();
                 },
                 child: const Text(
@@ -107,6 +106,13 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
+  void onEdited() {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("I'm working on this feature :("),
+      duration: Duration(milliseconds: 2000),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,14 +122,15 @@ class _HomePageState extends State<HomePage> {
         title: const Text("ToDo List"),
       ),
       body: ListView.builder(
-        itemCount: toDoList.length,
+        itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
           return ToDoList(
-            taskName: toDoList[index][0],
-            isCompleted: toDoList[index][1],
-            taskCreated: toDoList[index][2],
+            taskName: db.toDoList[index][0],
+            isCompleted: db.toDoList[index][1],
+            taskCreated: db.toDoList[index][2],
             taskOnChanged: (value) => checkBoxChanged(value, index),
             deleteTask: (context) => onDeleted(index),
+            editTask: (context) => onEdited(),
           );
         },
       ),

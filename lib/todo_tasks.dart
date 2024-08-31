@@ -7,6 +7,7 @@ class ToDoList extends StatelessWidget {
   final String taskCreated;
   Function(bool?)? taskOnChanged;
   Function(BuildContext) deleteTask;
+  Function(BuildContext) editTask;
   ToDoList({
     super.key,
     required this.taskName,
@@ -14,6 +15,7 @@ class ToDoList extends StatelessWidget {
     required this.taskCreated,
     required this.taskOnChanged,
     required this.deleteTask,
+    required this.editTask,
   });
 
   @override
@@ -37,7 +39,7 @@ class ToDoList extends StatelessWidget {
               ),
             ),
             SlidableAction(
-              onPressed: deleteTask,
+              onPressed: editTask,
               icon: Icons.edit,
               backgroundColor: Colors.grey,
               borderRadius: const BorderRadius.only(
