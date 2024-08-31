@@ -60,27 +60,25 @@ class ToDoList extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isCompleted,
-                      onChanged: taskOnChanged,
-                      activeColor: Colors.black,
-                    ),
-                  ],
+                Checkbox(
+                  value: isCompleted,
+                  onChanged: taskOnChanged,
+                  activeColor: Colors.black,
                 ),
-                // Task name with specified color
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      taskCreated,
-                      style: TextStyle(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
-                      ),
-                    ),
-                  ],
+                Text(
+                  taskName,
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  taskCreated,
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                  ),
                 ),
               ],
             ),
