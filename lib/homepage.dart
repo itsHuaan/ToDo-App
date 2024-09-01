@@ -115,7 +115,16 @@ class _HomePageState extends State<HomePage> {
 
   void onEdited() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("I'm working on this feature :("),
+      content: Row(
+        children: [
+          Icon(
+            Icons.notification_important,
+            color: Colors.white,
+          ),
+          SizedBox(width: 20),
+          Text("I'm working on this feature!"),
+        ],
+      ),
       duration: Duration(milliseconds: 2000),
     ));
   }
