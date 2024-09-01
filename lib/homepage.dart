@@ -81,6 +81,15 @@ class _HomePageState extends State<HomePage> {
             actions: [
               TextButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
                   setState(() {
                     db.toDoList.removeAt(index);
                   });
@@ -92,15 +101,6 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(color: Colors.red),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  "Cancel",
-                  style: TextStyle(color: Colors.black),
-                ),
-              )
             ],
           );
         });

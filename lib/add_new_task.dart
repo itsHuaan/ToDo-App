@@ -15,10 +15,12 @@ class AddNewTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Container(
-        height: 130,
+      title: const Text("Add a new task"),
+      content: SizedBox(
+        width: 300,
+        height: 110,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextField(
               controller: controller,
@@ -26,7 +28,7 @@ class AddNewTask extends StatelessWidget {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                hintText: "Add a new task",
+                hintText: "What are you going to do?",
                 hintStyle: const TextStyle(
                   color: Color.fromARGB(128, 0, 0, 0),
                 ),
