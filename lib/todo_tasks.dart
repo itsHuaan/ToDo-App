@@ -76,11 +76,7 @@ class ToDoList extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  taskCreated,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
-                  ),
+                  isCompleted ? "Completed" : taskCreated,
                 ),
               ],
             ),

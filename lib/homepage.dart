@@ -56,6 +56,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void cancelAddingTask() {
+    setState(() {
+      Navigator.of(context).pop();
+      _controller.text = '';
+    });
+  }
+
   void createNewTask() {
     showDialog(
         context: context,
@@ -63,7 +70,7 @@ class _HomePageState extends State<HomePage> {
           return AddNewTask(
             controller: _controller,
             onSaved: saveNewTask,
-            onCanceled: () => Navigator.of(context).pop(),
+            onCanceled: cancelAddingTask,
           );
         });
   }
