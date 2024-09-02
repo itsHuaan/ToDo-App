@@ -121,11 +121,12 @@ class _HomePageState extends State<HomePage> {
 
   void onEdited(int index) {
     editController.text = db.toDoList[index][0];
+    String taskName = editController.text;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Edit $editController"),
+          title: Text("Edit '$taskName'"),
           content: SizedBox(
             width: 300,
             height: 110,
