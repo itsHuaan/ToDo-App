@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/add_new_task.dart';
 import 'package:todo_list/database.dart';
+import 'package:todo_list/edit_task.dart';
 import 'package:todo_list/todo_tasks.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,13 +61,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void cancelAddingTask() {
-    setState(() {
-      Navigator.of(context).pop();
-      _controller.text = '';
-    });
-  }
-
   void createNewTask() {
     showDialog(
       context: context,
@@ -74,7 +68,12 @@ class _HomePageState extends State<HomePage> {
         return AddNewTask(
           controller: _controller,
           onSaved: saveNewTask,
-          onCanceled: cancelAddingTask,
+          onCanceled: () {
+            setState(() {
+              Navigator.of(context).pop();
+              _controller.clear();
+            });
+          },
         );
       },
     );
@@ -119,70 +118,38 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onEdited(int index) {
+  void editTask(int index) {
     editController.text = db.toDoList[index][0];
-    String taskName = editController.text;
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text("Edit '$taskName'"),
-          content: SizedBox(
-            width: 300,
-            height: 110,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextField(
-                  controller: editController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    hintText: "What are you going to do?",
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(128, 0, 0, 0),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      child: const Text("Cancel"),
-                      onPressed: () {
-                        setState(() {
-                          Navigator.of(context).pop();
-                          _controller.text = '';
-                        });
-                      },
-                    ),
-                    TextButton(
-                      child: const Text("Save"),
-                      onPressed: () {
-                        setState(
-                          () {
-                            if (editController.text.isNotEmpty) {
-                              db.toDoList[index][0] = editController.text;
-                              editController.text = '';
-                              db.updateData();
-                              Navigator.of(context).pop();
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content: Text("Task name is empty!"),
-                                duration: Duration(milliseconds: 1000),
-                              ));
-                            }
-                          },
-                        );
-                      },
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
+        return EditTask(
+          editController: editController,
+          index: index,
+          onSaved: onEdited,
+          onCanceled: () {
+            Navigator.of(context).pop();
+            _controller.clear();
+          },
         );
+      },
+    );
+  }
+
+  void onEdited(int index) {
+    setState(
+      () {
+        if (editController.text.isNotEmpty) {
+          db.toDoList[index][0] = editController.text;
+          editController.clear();
+          db.updateData();
+          Navigator.of(context).pop();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Task name is empty!"),
+            duration: Duration(milliseconds: 1000),
+          ));
+        }
       },
     );
   }
@@ -204,12 +171,14 @@ class _HomePageState extends State<HomePage> {
             taskCreated: db.toDoList[index][2],
             taskOnChanged: (value) => checkBoxChanged(value, index),
             deleteTask: (context) => onDeleted(index),
-            editTask: (context) => onEdited(index),
+            editTask: (context) => editTask(index),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        // onPressed: () {},
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         onPressed: createNewTask,
         backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
