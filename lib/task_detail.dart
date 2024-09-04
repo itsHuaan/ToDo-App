@@ -15,9 +15,9 @@ class TaskDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String taskName = db.toDoList[index][0];
-    String taskDescription = "";
-    String taskCompletion = db.toDoList[index][1] ? "Completed" : "Incompleted";
-    String taskCreated = db.toDoList[index][2];
+    String taskDescription = db.toDoList[index][1];
+    String taskCompletion = db.toDoList[index][2] ? "Completed" : "Incompleted";
+    String taskCreated = db.toDoList[index][3];
     return SimpleDialog(
       title: const Text(
         "Task Detail",
@@ -64,7 +64,7 @@ class TaskDetail extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: db.toDoList[index][1] ? const Color.fromARGB(255, 0, 122, 4) : const Color.fromARGB(255, 199, 179, 0),
+                      color: db.toDoList[index][2] ? const Color.fromARGB(255, 0, 122, 4) : const Color.fromARGB(255, 199, 179, 0),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Text(

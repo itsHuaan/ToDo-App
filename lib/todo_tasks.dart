@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ToDoList extends StatelessWidget {
   final String taskName;
+  final String taskDescription;
   final bool isCompleted;
   final String taskCreated;
   Function(bool?)? taskOnChanged;
@@ -12,6 +13,7 @@ class ToDoList extends StatelessWidget {
   ToDoList({
     super.key,
     required this.taskName,
+    required this.taskDescription,
     required this.isCompleted,
     required this.taskCreated,
     required this.taskOnChanged,

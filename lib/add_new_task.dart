@@ -2,35 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/buttons.dart';
 
 class AddNewTask extends StatelessWidget {
-  final controller;
+  final taskNameController;
+  final taskDescriptionController;
   VoidCallback onSaved;
   VoidCallback onCanceled;
   AddNewTask({
     super.key,
-    required this.controller,
+    required this.taskNameController,
+    required this.taskDescriptionController,
     required this.onSaved,
     required this.onCanceled,
   });
 
   @override
   Widget build(BuildContext context) {
+    double popupWidth = 300.0;
     return AlertDialog(
       title: const Text("Add a new task"),
-      content: SizedBox(
-        width: 300,
-        height: 110,
+      content: Container(
+        constraints: BoxConstraints(
+          maxWidth: popupWidth,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min, // Makes Column take up only as much vertical space as needed
           children: [
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: popupWidth,
+                child: TextField(
+                  controller: taskNameController,
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    labelText: "Task name",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
                 ),
-                hintText: "What are you going to do?",
-                hintStyle: const TextStyle(
-                  color: Color.fromARGB(128, 0, 0, 0),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: popupWidth,
+                child: TextField(
+                  maxLines: 3,
+                  controller: taskDescriptionController,
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    labelText: "Task description",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -44,9 +69,9 @@ class AddNewTask extends StatelessWidget {
                 Buttons(
                   buttonText: "Save",
                   buttonOnPressed: onSaved,
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

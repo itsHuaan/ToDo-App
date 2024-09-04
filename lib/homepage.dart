@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   TaskDabase db = TaskDabase();
   @override
   void initState() {
-    if (_myBox.get("TODOLIST") == null) {
+    if (_myBox.get("TASKS") == null) {
       db.initialData();
     } else {
       db.loadData();
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
 
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      db.toDoList[index][1] = !db.toDoList[index][1];
+      db.toDoList[index][2] = !db.toDoList[index][2];
     });
     db.updateData();
   }
@@ -47,10 +47,12 @@ class _HomePageState extends State<HomePage> {
         if (_taskNameController.text.isNotEmpty) {
           db.toDoList.add([
             _taskNameController.text,
+            _taskDescriptionController.text,
             false,
             DateFormat('dd/MM/yyyy').format(DateTime.now())
           ]);
           _taskNameController.clear();
+          _taskDescriptionController.clear();
           db.updateData();
           Navigator.of(context).pop();
         } else {
@@ -68,12 +70,14 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (context) {
         return AddNewTask(
-          controller: _taskNameController,
+          taskNameController: _taskNameController,
+          taskDescriptionController: _taskDescriptionController,
           onSaved: saveNewTask,
           onCanceled: () {
             setState(() {
               Navigator.of(context).pop();
               _taskNameController.clear();
+              _taskDescriptionController.clear();
             });
           },
         );
@@ -108,16 +112,19 @@ class _HomePageState extends State<HomePage> {
 
   void editTask(int index) {
     _taskNameController.text = db.toDoList[index][0];
+    _taskDescriptionController.text = db.toDoList[index][1];
     showDialog(
       context: context,
       builder: (context) {
         return EditTask(
-          controller: _taskNameController,
+          taskNameController: _taskNameController,
+          taskDescriptionController: _taskDescriptionController,
           index: index,
           onSaved: onEdited,
           onCanceled: () {
             Navigator.of(context).pop();
             _taskNameController.clear();
+            _taskDescriptionController.clear();
           },
         );
       },
@@ -129,7 +136,9 @@ class _HomePageState extends State<HomePage> {
       () {
         if (_taskNameController.text.isNotEmpty) {
           db.toDoList[index][0] = _taskNameController.text;
+          db.toDoList[index][1] = _taskDescriptionController.text;
           _taskNameController.clear();
+          _taskDescriptionController.clear();
           db.updateData();
           Navigator.of(context).pop();
         } else {
@@ -171,8 +180,9 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           return ToDoList(
             taskName: db.toDoList[index][0],
-            isCompleted: db.toDoList[index][1],
-            taskCreated: db.toDoList[index][2],
+            taskDescription: db.toDoList[index][0],
+            isCompleted: db.toDoList[index][2],
+            taskCreated: db.toDoList[index][3],
             taskOnChanged: (value) => checkBoxChanged(value, index),
             deleteTask: (context) => deleteTask(index),
             taskDetail: (context) => taskDetail(index),

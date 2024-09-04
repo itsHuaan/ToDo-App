@@ -9,10 +9,10 @@ class TaskDabase {
   }
 
   void loadData() {
-    toDoList = _myBox.get("TODOLIST");
+    toDoList = _myBox.get("TASKS");
   }
 
   void updateData() {
-    _myBox.put("TODOLIST", toDoList);
+    _myBox.put("TASKS", toDoList);
   }
 }
