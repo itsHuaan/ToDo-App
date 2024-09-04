@@ -3,7 +3,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/add_new_task.dart';
 import 'package:todo_list/database.dart';
+import 'package:todo_list/delete_task.dart';
 import 'package:todo_list/edit_task.dart';
+import 'package:todo_list/task_detail.dart';
 import 'package:todo_list/todo_tasks.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,9 +20,9 @@ class _HomePageState extends State<HomePage> {
   final _myBox = Hive.box("myBox");
 
   // Text controller
-  final _controller = TextEditingController();
+  final _taskNameController = TextEditingController();
 
-  final editController = TextEditingController();
+  final _taskDescriptionController = TextEditingController();
   TaskDabase db = TaskDabase();
   @override
   void initState() {
@@ -42,13 +44,13 @@ class _HomePageState extends State<HomePage> {
   void saveNewTask() {
     setState(
       () {
-        if (_controller.text.isNotEmpty) {
+        if (_taskNameController.text.isNotEmpty) {
           db.toDoList.add([
-            _controller.text,
+            _taskNameController.text,
             false,
             DateFormat('dd/MM/yyyy').format(DateTime.now())
           ]);
-          _controller.text = '';
+          _taskNameController.clear();
           db.updateData();
           Navigator.of(context).pop();
         } else {
@@ -66,12 +68,12 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (context) {
         return AddNewTask(
-          controller: _controller,
+          controller: _taskNameController,
           onSaved: saveNewTask,
           onCanceled: () {
             setState(() {
               Navigator.of(context).pop();
-              _controller.clear();
+              _taskNameController.clear();
             });
           },
         );
@@ -79,57 +81,43 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onDeleted(int index) {
+  void deleteTask(int index) {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text(
-            "Confirm delete",
-            style: TextStyle(color: Colors.red),
-          ),
-          content: const Text("Are you sure to delete this task?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                "Cancel",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  db.toDoList.removeAt(index);
-                });
-                db.updateData();
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                "Delete",
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
+        return DeleteTask(
+          index: index,
+          onSaved: onDeleted,
+          onCanceled: () {
+            Navigator.of(context).pop();
+          },
         );
       },
     );
   }
 
+  void onDeleted(int index) {
+    setState(
+      () {
+        db.toDoList.removeAt(index);
+      },
+    );
+    db.updateData();
+    Navigator.of(context).pop();
+  }
+
   void editTask(int index) {
-    editController.text = db.toDoList[index][0];
+    _taskNameController.text = db.toDoList[index][0];
     showDialog(
       context: context,
       builder: (context) {
         return EditTask(
-          editController: editController,
+          controller: _taskNameController,
           index: index,
           onSaved: onEdited,
           onCanceled: () {
             Navigator.of(context).pop();
-            _controller.clear();
+            _taskNameController.clear();
           },
         );
       },
@@ -139,9 +127,9 @@ class _HomePageState extends State<HomePage> {
   void onEdited(int index) {
     setState(
       () {
-        if (editController.text.isNotEmpty) {
-          db.toDoList[index][0] = editController.text;
-          editController.clear();
+        if (_taskNameController.text.isNotEmpty) {
+          db.toDoList[index][0] = _taskNameController.text;
+          _taskNameController.clear();
           db.updateData();
           Navigator.of(context).pop();
         } else {
@@ -154,20 +142,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void detailOnClicked(int index) {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("I'm working on this"),
-      duration: Duration(milliseconds: 1000),
-    ));
+  void taskDetail(int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return TaskDetail(
+          db: db,
+          index: index,
+          onClosed: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         foregroundColor: Colors.white,
         backgroundColor: Colors.lightBlue,
-        title: const Text("ToDo List"),
+        title: const Text("ToDo"),
       ),
       body: ListView.builder(
         itemCount: db.toDoList.length,
@@ -177,8 +174,8 @@ class _HomePageState extends State<HomePage> {
             isCompleted: db.toDoList[index][1],
             taskCreated: db.toDoList[index][2],
             taskOnChanged: (value) => checkBoxChanged(value, index),
-            deleteTask: (context) => onDeleted(index),
-            taskDetail: (context) => detailOnClicked(index),
+            deleteTask: (context) => deleteTask(index),
+            taskDetail: (context) => taskDetail(index),
             editTask: (context) => editTask(index),
           );
         },
