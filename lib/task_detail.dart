@@ -38,7 +38,10 @@ class TaskDetail extends StatelessWidget {
                     "Task Name: ",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Expanded(child: Text(taskName)),
+                  const SizedBox(
+                    width: 55,
+                  ),
+                  Text(taskName),
                 ],
               ),
             ),
@@ -50,6 +53,9 @@ class TaskDetail extends StatelessWidget {
                   const Text(
                     "Task Description: ",
                     style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 18,
                   ),
                   Expanded(
                     child: Text(taskDescription),
@@ -65,6 +71,9 @@ class TaskDetail extends StatelessWidget {
                   const Text(
                     "Task Completion: ",
                     style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 18,
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -88,6 +97,9 @@ class TaskDetail extends StatelessWidget {
                   const Text(
                     "Task Created: ",
                     style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 41,
                   ),
                   Text(taskCreated),
                 ],
