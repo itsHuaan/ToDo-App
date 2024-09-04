@@ -154,6 +154,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void detailOnClicked(int index) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("I'm working on this"),
+      duration: Duration(milliseconds: 1000),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,6 +178,7 @@ class _HomePageState extends State<HomePage> {
             taskCreated: db.toDoList[index][2],
             taskOnChanged: (value) => checkBoxChanged(value, index),
             deleteTask: (context) => onDeleted(index),
+            taskDetail: (context) => detailOnClicked(index),
             editTask: (context) => editTask(index),
           );
         },

@@ -7,6 +7,7 @@ class ToDoList extends StatelessWidget {
   final String taskCreated;
   Function(bool?)? taskOnChanged;
   Function(BuildContext) deleteTask;
+  Function(BuildContext) taskDetail;
   Function(BuildContext) editTask;
   ToDoList({
     super.key,
@@ -15,6 +16,7 @@ class ToDoList extends StatelessWidget {
     required this.taskCreated,
     required this.taskOnChanged,
     required this.deleteTask,
+    required this.taskDetail,
     required this.editTask,
   });
 
@@ -24,31 +26,37 @@ class ToDoList extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
       child: Slidable(
         endActionPane: ActionPane(
-          extentRatio: 0.3,
+          extentRatio: 0.5,
           motion: const StretchMotion(),
           children: [
             SlidableAction(
+              label: "Detail",
+              onPressed: taskDetail,
+              icon: Icons.info,
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.lightBlue,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+              ),
+            ),
+            SlidableAction(
+              label: "Edit",
+              onPressed: editTask,
+              icon: Icons.edit,
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.black54,
+            ),
+            SlidableAction(
+              label: "Delete",
               onPressed: deleteTask,
               icon: Icons.delete,
               backgroundColor: Colors.red,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(0),
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(0),
-              ),
-            ),
-            SlidableAction(
-              onPressed: editTask,
-              icon: Icons.edit,
-              backgroundColor: Colors.grey,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(0),
                 topRight: Radius.circular(15),
-                bottomLeft: Radius.circular(0),
                 bottomRight: Radius.circular(15),
               ),
-            )
+            ),
           ],
         ),
         child: Material(

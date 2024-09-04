@@ -45,9 +45,7 @@ class EditTask extends StatelessWidget {
                   child: const Text("Cancel"),
                 ),
                 TextButton(
-                  onPressed: () {
-                    onSaved(index);
-                  },
+                  onPressed: () => onSaved(index),
                   child: const Text("Save"),
                 ),
               ],
