@@ -9,7 +9,13 @@ import 'package:todo_list/task_detail.dart';
 import 'package:todo_list/todo_tasks.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+  const HomePage({
+    super.key,
+    required this.toggleTheme,
+    required this.isDarkMode,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -168,11 +174,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = false;
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: widget.toggleTheme,
+            icon: Icon(widget.isDarkMode ? Icons.dark_mode_rounded : Icons.light_mode_rounded),
+          ),
+        ],
         centerTitle: true,
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text("ToDo"),
       ),
       body: ListView.builder(
@@ -195,9 +207,10 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(15.0),
         ),
         onPressed: createNewTask,
-        backgroundColor: Colors.lightBlue,
-        foregroundColor: Colors.white,
-        child: const Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
       ),
     );
   }

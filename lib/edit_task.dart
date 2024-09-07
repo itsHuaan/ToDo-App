@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/buttons.dart';
 
 class EditTask extends StatelessWidget {
   final TextEditingController taskNameController;
@@ -61,14 +62,17 @@ class EditTask extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
-                onPressed: onCanceled,
-                child: const Text("Cancel"),
+              Buttons(
+                buttonOnPressed: onCanceled,
+                buttonText: "Cancel",
               ),
-              SizedBox(width: 8), // Add spacing between buttons
+              const SizedBox(width: 8), // Add spacing between buttons
               TextButton(
                 onPressed: () => onSaved(index),
-                child: const Text("Save"),
+                child: Text(
+                  "Save",
+                  style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                ),
               ),
             ],
           ),

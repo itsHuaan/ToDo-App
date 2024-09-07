@@ -24,9 +24,9 @@ class DeleteTask extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text(
+          child: Text(
             "Cancel",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
           ),
         ),
         TextButton(

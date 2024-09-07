@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/buttons.dart';
 import 'package:todo_list/database.dart';
 
 class TaskDetail extends StatelessWidget {
@@ -108,9 +109,9 @@ class TaskDetail extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: onClosed,
-                  child: const Text("Close"),
+                Buttons(
+                  buttonOnPressed: onClosed,
+                  buttonText: "Close",
                 ),
               ],
             ),

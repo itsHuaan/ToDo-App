@@ -67,7 +67,7 @@ class ToDoList extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(15.0),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 255, 255),
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
@@ -75,12 +75,15 @@ class ToDoList extends StatelessWidget {
                 Checkbox(
                   value: isCompleted,
                   onChanged: taskOnChanged,
-                  activeColor: Colors.black,
+                  activeColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                const SizedBox(
+                  width: 10.0,
                 ),
                 Text(
                   taskName,
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0),
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
                   ),
                 ),

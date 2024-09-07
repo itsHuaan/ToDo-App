@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'homepage.dart';
+import 'themes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
@@ -8,21 +9,31 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkMode = false;
+  void toggleTheme() {
+    setState(() {
+      isDarkMode = !isDarkMode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ToDo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.lightBlue,
-        primarySwatch: Colors.lightBlue,
-        useMaterial3: true,
+      theme: changeTheme(isDarkMode),
+      home: HomePage(
+        isDarkMode: isDarkMode,
+        toggleTheme: toggleTheme,
       ),
-      home: const HomePage(),
     );
   }
 }

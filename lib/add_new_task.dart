@@ -18,6 +18,7 @@ class AddNewTask extends StatelessWidget {
   Widget build(BuildContext context) {
     double popupWidth = 300.0;
     return AlertDialog(
+      backgroundColor: Theme.of(context).colorScheme.primary,
       title: const Text("Add a new task"),
       content: Container(
         constraints: BoxConstraints(
@@ -31,12 +32,19 @@ class AddNewTask extends StatelessWidget {
               child: SizedBox(
                 width: popupWidth,
                 child: TextField(
+                  cursorColor: Theme.of(context).colorScheme.inversePrimary,
                   controller: taskNameController,
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     labelText: "Task name",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                    labelStyle: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.inversePrimary),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.inversePrimary),
                     ),
                   ),
                 ),
@@ -47,13 +55,20 @@ class AddNewTask extends StatelessWidget {
               child: SizedBox(
                 width: popupWidth,
                 child: TextField(
+                  cursorColor: Theme.of(context).colorScheme.inversePrimary,
                   maxLines: 3,
                   controller: taskDescriptionController,
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     labelText: "Task description",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                    labelStyle: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.inversePrimary),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.inversePrimary),
                     ),
                   ),
                 ),
