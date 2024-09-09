@@ -36,14 +36,15 @@ class TaskDetail extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Task Name: ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  const Expanded(
+                    child: Text(
+                      "Task Name: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 55,
+                  Expanded(
+                    child: Text(taskName),
                   ),
-                  Text(taskName),
                 ],
               ),
             ),
@@ -52,12 +53,11 @@ class TaskDetail extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Task Description: ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 18,
+                  const Expanded(
+                    child: Text(
+                      "Task Description: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Expanded(
                     child: Text(taskDescription),
@@ -70,22 +70,23 @@ class TaskDetail extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Task Completion: ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    decoration: BoxDecoration(
-                      color: isCompleted ? const Color.fromARGB(255, 0, 122, 4) : const Color.fromARGB(255, 199, 179, 0),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
+                  const Expanded(
                     child: Text(
-                      taskCompletion,
-                      style: const TextStyle(color: Colors.white),
+                      "Task Completion: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        color: isCompleted ? const Color.fromARGB(255, 0, 122, 4) : const Color.fromARGB(255, 199, 179, 0),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Text(
+                        taskCompletion,
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -96,14 +97,15 @@ class TaskDetail extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Task Created: ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  const Expanded(
+                    child: Text(
+                      "Task Created: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 41,
+                  Expanded(
+                    child: Text(taskCreated),
                   ),
-                  Text(taskCreated),
                 ],
               ),
             ),
@@ -117,7 +119,7 @@ class TaskDetail extends StatelessWidget {
               ],
             ),
           ],
-        ),
+        )
       ],
     );
   }
