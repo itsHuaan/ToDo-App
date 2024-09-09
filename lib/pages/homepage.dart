@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_list/add_new_task.dart';
-import 'package:todo_list/database.dart';
-import 'package:todo_list/delete_task.dart';
-import 'package:todo_list/edit_task.dart';
-import 'package:todo_list/task_detail.dart';
-import 'package:todo_list/todo_tasks.dart';
+import 'package:todo_list/components/add_new_task.dart';
+import 'package:todo_list/models/database.dart';
+import 'package:todo_list/components/delete_task.dart';
+import 'package:todo_list/components/edit_task.dart';
+import 'package:todo_list/components/task_detail.dart';
+import 'package:todo_list/components/todo_tasks.dart';
 
 class HomePage extends StatefulWidget {
   final VoidCallback toggleTheme;

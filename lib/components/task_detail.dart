@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/buttons.dart';
-import 'package:todo_list/database.dart';
+import 'package:todo_list/components/buttons.dart';
+import 'package:todo_list/models/database.dart';
 
 class TaskDetail extends StatelessWidget {
   final TaskDabase db;

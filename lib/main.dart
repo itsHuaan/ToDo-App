@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart';
-import 'themes.dart';
+import 'pages/homepage.dart';
+import 'theme/themes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
