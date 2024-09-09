@@ -8,7 +8,9 @@ class ToDoList extends StatelessWidget {
   final String taskCreated;
   Function(bool?)? taskOnChanged;
   Function(BuildContext) deleteTask;
-  Function(BuildContext) taskDetail;
+  // Function(BuildContext) taskDetail;
+  int index;
+  void Function(int) taskDetail;
   Function(BuildContext) editTask;
   ToDoList({
     super.key,
@@ -18,6 +20,7 @@ class ToDoList extends StatelessWidget {
     required this.taskCreated,
     required this.taskOnChanged,
     required this.deleteTask,
+    required this.index,
     required this.taskDetail,
     required this.editTask,
   });
@@ -32,22 +35,15 @@ class ToDoList extends StatelessWidget {
           motion: const StretchMotion(),
           children: [
             SlidableAction(
-              label: "Detail",
-              onPressed: taskDetail,
-              icon: Icons.info,
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.lightBlue,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
-              ),
-            ),
-            SlidableAction(
               label: "Edit",
               onPressed: editTask,
               icon: Icons.edit,
               foregroundColor: Colors.white,
-              backgroundColor: Colors.black54,
+              backgroundColor: Colors.grey.shade600,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+              ),
             ),
             SlidableAction(
               label: "Delete",
@@ -61,9 +57,10 @@ class ToDoList extends StatelessWidget {
             ),
           ],
         ),
-        child: Material(
-          elevation: 5, // Set the elevation here
-          borderRadius: BorderRadius.circular(15), // Match the border radius of the container
+        child: GestureDetector(
+          onTap: () {
+            taskDetail(index);
+          },
           child: Container(
             padding: const EdgeInsets.all(15.0),
             decoration: BoxDecoration(
@@ -80,16 +77,43 @@ class ToDoList extends StatelessWidget {
                 const SizedBox(
                   width: 10.0,
                 ),
-                Text(
-                  taskName,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                    decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      taskName,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      taskCreated,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w200,
+                        fontStyle: FontStyle.italic,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
+                    )
+                  ],
                 ),
                 const Spacer(),
-                Text(
-                  isCompleted ? "Completed" : taskCreated,
+                // Text(
+                //   isCompleted ? "Completed" : "Incompleted",
+                // ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  decoration: BoxDecoration(
+                    color: isCompleted ? const Color.fromARGB(255, 0, 122, 4) : const Color.fromARGB(255, 199, 179, 0),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Text(
+                    isCompleted ? "Completed" : "Incompleted",
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
